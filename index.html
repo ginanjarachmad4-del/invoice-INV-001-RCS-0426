@@ -3,15 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Invoice System</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 body {
-    font-family: "Segoe UI", Arial, sans-serif;
+     font-family: 'Inter', Arial, sans-serif;
     background: #eef2f7;
     margin: 0;
     padding: 20px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 /* container */
@@ -149,6 +151,26 @@ table td {
   .btn {
     display: none;
   }
+
+  #pdf-content {
+    width: 794px; /* A4 @96dpi */
+    margin: auto;
+  }
+
+  .invoice-box::before {
+    display: none;
+  }
+}
+    table, tr, td, th {
+  page-break-inside: avoid;
+}
+    @media screen and (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+  .invoice-box {
+    padding: 25px;
+  }
 }
 </style>
 </head>
@@ -274,12 +296,21 @@ function downloadPDF(){
   const element = document.getElementById('pdf-content');
 
   html2pdf().set({
-    margin: 0.5,
+    margin: 10,
     filename: 'Invoice-Rockustik-DAOP2.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2.5, useCORS: true },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      letterRendering: true
+    },
+    jsPDF: {
+      unit: 'mm',
+      format: 'a4',
+      orientation: 'portrait'
+    }
   }).from(element).save();
-}</script>
+}
+</script>
 </body>
 </html>
